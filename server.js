@@ -1,13 +1,13 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-const { start } = require("repl");
+// const { start } = require("repl");
 
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
     password: "password",
-    database: "employee_DB"
+    database: "employees_DB"
 });
 
 connection.connect(function(err){
