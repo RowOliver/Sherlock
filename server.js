@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-// const { start } = require("repl");
+
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -14,6 +14,7 @@ connection.connect(function(err){
     if (err) throw err;
     start();
 });
+
 
 function start() {
     inquirer
@@ -39,23 +40,27 @@ function start() {
                 viewDepartments();
                 break;
 
-                case "View all roles":
+            case "View all employees":
+                    viewEmployee();
+                    break;
+
+            case "View all roles":
                     viewRoles();
                     break;
 
-                case "Add a department":
-                    addDepartmend();
+            case "Add a department":
+                    addDepartment();
                     break;
                     
-                case "Add an employee":
+            case "Add an employee":
                     addEmployee();
                     break;
                     
-                case "Update employee role":
+            case "Update employee role":
                     updateRole();
                     break;
                     
-                case "Exit":
+            case "Exit":
                     connection.end();
                     break;   
 
@@ -68,7 +73,7 @@ function start() {
 function viewDepartments() {
     var query = "SELECT * FROM department";
     connection.query(query, function(err, res){
-        console.log(`DEPARTMENT:`)
+        console.table(`DEPARTMENT:`)
         res.forEach(department => {
             console.log(`ID: ${department.id} | Name: ${department.name}`)
         })
@@ -76,6 +81,30 @@ function viewDepartments() {
 
     });
 };
+
+function viewRoles() {
+    var query = "SELECT * FROM roles";
+    connection.query(query, function(err, res){
+        console.table('ROLES:')
+        res.forEach(roles => {
+            console.table(`ID: ${roles.id} | Title: ${roles.title} | Salary: ${roles.salary} | Department ID: ${roles.department_id}`);
+        })
+        start();
+    });
+
+};
+
+function viewEmployees() {
+    var query = "SELECT * FROM employee";
+        connection.query(query, function(err, res) {
+            console.table(`EMPLOYEES:`)
+        res.forEach(employee => {
+            console.table(`ID: ${employee.id} | Name: ${employee.first_name} ${employee.last_name} | Role ID: ${employee.roles_id} | Manager ID: ${employee.manager_id}`);
+        })
+        start();
+        });
+    };
+
 
 function addDepartment() {
     inquirer
@@ -94,7 +123,11 @@ function addDepartment() {
 
 }
 
-function addRole() {
+
+
+
+
+function addRoles() {
     connection.query('SELECT * FROM department', function(err, res){
         if (err) throw(err);
     inquirer
