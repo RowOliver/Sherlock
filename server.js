@@ -41,7 +41,7 @@ function start() {
                 break;
 
             case "View all employees":
-                    viewEmployee();
+                    viewEmployees();
                     break;
 
             case "View all roles":
@@ -97,7 +97,7 @@ function viewRoles() {
 function viewEmployees() {
     var query = "SELECT * FROM employee";
         connection.query(query, function(err, res) {
-            console.table(`EMPLOYEES:`)
+            console.table(`EMPLOYEE:`)
         res.forEach(employee => {
             console.table(`ID: ${employee.id} | Name: ${employee.first_name} ${employee.last_name} | Role ID: ${employee.roles_id} | Manager ID: ${employee.manager_id}`);
         })
